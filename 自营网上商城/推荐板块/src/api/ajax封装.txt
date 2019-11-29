@@ -1,0 +1,38 @@
+// 1.导入 axios
+import axios from 'axios'
+// 2. 对外暴露一个 ajax方法 
+export default function ajax(url= '',params= '',type= ''){
+    // 3. 参数一： url 参数二： 需要传递的参数 参数三： 传递的类型 get post
+    // 4. 定义 promise对象
+    let promise
+    // 5.返回 Promise 实例
+    return new Promise((resolve,reject)=>{
+        // 6. 判断请求的方式
+        if ('GET'===type){
+            // 6.1定义存放参数的变量
+            let paramStr= ''
+            // 6.2获取ajax中的 params中的数据(数组)
+            Object.keys(params).forEach(key=>{
+                // 6.3 对获得的数据进行拼接
+                paramStr +=key +'=' +params[key]+ '&'
+            })
+            // 6.4 过滤掉最后的 & 符号
+            if (paramStr!= ''){
+                // 6.5 截取字符串
+                paramStr =paramStr.substr(0,paramStr.lastIndexOf('&'))
+            }
+            // 7. 拼接完整的路径
+            url+= '?'+ paramStr
+            // 8. 发送 get请求
+            promise= axios.get(url)
+        }else if('POST'===type){
+            // 发送 post请求
+            promise=axios.post(url,params)
+        }
+        promise.then((reponse)=>{
+            resolve(response.data)
+        }).catch(error=>{
+            reject(error)
+        })
+    })
+}

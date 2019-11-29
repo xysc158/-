@@ -1,0 +1,57 @@
+<div class="mui-slider-right mui-disabled">
+    <a class="mui-btn mui-btn-red">删除</a>
+</div>
+<div class="mui-slider-handle">
+    <div class="cart-left">
+        <div class=" mui-checkbox">
+            <input name="checkbox" value="Item 1" type="checkbox" ref="checkbox" @change="checked(index)">
+        </div>
+    </div>
+    <div class="cart-image">
+        <img :src="item.msrc" alt="">
+    </div>
+    <div class="cart-right">
+        <p>{{item.title}}</p>
+        <p class="maxnum">库存：<span id="maxnum">{{item.maxnum}}</span></p>
+        <p class="cart-price"><span>￥{{item.price}}</span>
+            <cartnumbox :initcount="item.count" :maxnum="item.maxnum" @getnum="getnum"></cartnumbox>
+        </p>
+    </div>
+</div>
+</li>
+<script>
+     checkAll() {
+                    if (this.$refs.checkAll.checked) {
+                        mui(this.$refs.checkbox).each(function() {
+                            this.checked = true;
+                        });
+                        this.checkednum = mui(this.$refs.checkbox).length;
+                    } else {
+                        mui(this.$refs.checkbox).each(function() {
+                            this.checked = false;
+                        });
+                        this.checkednum = 0;
+                        this.checkboxsum = 0;
+                    }
+                    console.log('总数' + this.checkboxsum);
+                    console.log('选择数' + this.checkednum);
+                },
+                //单个选择
+                checked(index) {
+                    this.checkboxsum = mui(this.$refs.checkbox).length;
+                    console.log(this.$refs.checkbox[index].checked);
+                    if (this.$refs.checkbox[index].checked) {
+                        //选择的个数保存到data中
+                        this.checkednum++;
+                    } else {
+                        this.checkednum--;
+                    }
+                    if (this.checkednum == this.checkboxsum) {
+                        this.$refs.checkAll.checked = true;
+                    } else {
+                        this.$refs.checkAll.checked = false;
+                    }
+                    console.log('总数' + this.checkboxsum);
+                    console.log('选择数' + this.checkednum);
+                }
+</script>
